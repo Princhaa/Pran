@@ -3,12 +3,13 @@ import { View, StyleSheet, ScrollView, Text, TouchableWithoutFeedback, Touchable
 import { Button, FormLabel, FormInput, CheckBox, Icon } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
 import Modal from 'react-native-modal';
+import { connect } from 'react-redux';
 
 import config from '../config/config';
 import FormItem from '../components/FormItem';
 import PassengerNumber from '../components/PassengerNumber';
 
-export default class SearchFlight extends Component {
+class SearchFlight extends Component {
 
     static navigationOptions = {
         title: 'Search Flight'
@@ -18,7 +19,10 @@ export default class SearchFlight extends Component {
         passengerModal: false,
         classModal: false,
         calendarModal: false,
-        passengerClass: ''
+        passengerClass: 'Kelas Penerbangan',
+        departure: 'Kota Asal',
+        arrival: 'Kota Tujuan',
+        passenger: 'Penumpang',
     }
 
     handlePassengerModal() {
@@ -37,6 +41,15 @@ export default class SearchFlight extends Component {
         this.setState({ markedDay: day.dateString })
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.departure) {
+            this.setState({ departure: nextProps.departure });
+        }
+        if (nextProps.arrival) {
+            this.setState({ arrival: nextProps.arrival });
+        }
+    }
+
     render() {
         const { navigation } = this.props;
         return (
@@ -46,21 +59,25 @@ export default class SearchFlight extends Component {
                         <FormItem
                             icon='flight-takeoff'
                             label='Kota Asal'
-                            onPress={() => navigation.navigate('pickPlace')}
+                            value={this.state.departure}
+                            onPress={() => navigation.navigate('pickPlace', { type: 'departure' })}
                         />
                         <FormItem
                             icon='flight-land'
                             label='Kota Tujuan'
-                            onPress={() => navigation.navigate('pickPlace')}
+                            value={this.state.arrival}
+                            onPress={() => navigation.navigate('pickPlace', { type: 'arrival' })}
                         />
                         <FormItem
                             icon='people'
                             label='Penumpang'
+                            value={this.state.passenger}
                             onPress={() => this.handlePassengerModal()}
                         />
                         <FormItem
                             icon='airline-seat-recline-normal'
-                            label='Kelas Penerbangan'
+                            label = 'Kelas Penerbangan'
+                            value={this.state.passengerClass}
                             onPress={() => this.handleClassModal()}
                         />
                         <View style = {styles.calendarContainer}>
@@ -128,22 +145,22 @@ export default class SearchFlight extends Component {
                                 <CheckBox
                                     checkedIcon='dot-circle-o'
                                     uncheckedIcon='circle-o'
-                                    checked={this.state.passengerClass == 'ekonomi'}
-                                    onPress={() => this.setState({ passengerClass: 'ekonomi' })}
+                                    checked={this.state.passengerClass == 'Ekonomi'}
+                                    onPress={() => this.setState({ passengerClass: 'Ekonomi' })}
                                     title='Ekonomi'
                                 />
                                 <CheckBox
                                     checkedIcon='dot-circle-o'
                                     uncheckedIcon='circle-o'
-                                    checked={this.state.passengerClass == 'bisnis'}
-                                    onPress={() => this.setState({ passengerClass: 'bisnis' })}
+                                    checked={this.state.passengerClass == 'Bisnis'}
+                                    onPress={() => this.setState({ passengerClass: 'Bisnis' })}
                                     title='Bisnis'
                                 />
                                 <CheckBox
                                     checkedIcon='dot-circle-o'
                                     uncheckedIcon='circle-o'
-                                    checked={this.state.passengerClass == 'premium'}
-                                    onPress={() => this.setState({ passengerClass: 'premium' })}
+                                    checked={this.state.passengerClass == 'Premium'}
+                                    onPress={() => this.setState({ passengerClass: 'Premium' })}
                                     title='Ekonomi Premium'
                                 />
                             </View>
@@ -249,3 +266,13 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
 })
+
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        departure: state.setDeparture.departure,
+        arrival: state.setArrival.arrival
+    }
+}
+
+export default connect(mapStateToProps)(SearchFlight);

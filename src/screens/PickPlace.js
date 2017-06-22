@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 import PlaceItem from '../components/PlaceItem';
+import store from '../service/store';
+import { setDeparture, setArrival } from '../service/action';
 
 const items = [
     { key: 0, text: 'Bandar Udara Internasional Husein Sastranegara, Bandung (BDO)' },
@@ -24,10 +27,26 @@ const items = [
     { key: 16, text: 'Bandar Udara Abdul Rachman Saleh, Malang (MLG)' },
 ];
 
+const backAction = NavigationActions.back();
+
 export default class extends Component {
 
-    static navigationOptions = {
+    static navigationOptions =  {
         title: 'Pilih bandara'
+    }
+
+    setPlace(place) {
+        switch(this.props.navigation.state.params.type) {
+            case 'departure' : {
+                store.dispatch(setDeparture(place));
+                this.props.navigation.dispatch(backAction);
+                break;
+            }
+            case 'arrival' : {
+                store.dispatch(setArrival(place));
+                this.props.navigation.dispatch(backAction);
+            }
+        }
     }
 
     render() {
@@ -43,6 +62,7 @@ export default class extends Component {
                         return (
                             <PlaceItem
                                 text={item.item.text}
+                                onPress = {() => this.setPlace(item.item.text)}
                             />
                         )
                     }}

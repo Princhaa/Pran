@@ -9,11 +9,12 @@ export default class FormItem extends Component {
     static propTypes = {
         icon: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
         onPress: PropTypes.func
     }
 
     render(){
-        const { icon, label, onPress, ...otherProps } = this.props;
+        const { icon, label, value, onPress, ...otherProps } = this.props;
         return (
             <TouchableWithoutFeedback onPress = {onPress}>
                 <View style = {styles.container} {...otherProps}>
@@ -24,7 +25,7 @@ export default class FormItem extends Component {
                     </View>
                     <View style = {styles.formContainer}>
                         <FormLabel>{label}</FormLabel>
-                        <FormInput value = {label}/>
+                        <FormInput value = {value}/>
                     </View>
                 </View>
             </TouchableWithoutFeedback>

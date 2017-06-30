@@ -10,13 +10,21 @@ import PickPlace from './src/screens/PickPlace';
 import SearchResult from './src/screens/SearchResult';
 import FillData from './src/screens/FillData';
 import OrderReview from './src/screens/OrderReview';
+import PaymentMethod from './src/screens/PaymentMethod';
+import Transfer from './src/screens/Transfer';
+import Pay from './src/screens/Pay';
+import FinishPayment from './src/screens/FinishPayment';
 
 const Pran = StackNavigator({ 
   searchFlight: { screen: SearchFlight },
   pickPlace: { screen: PickPlace },
   searchResult: { screen: SearchResult },
   fillData: { screen: FillData },
-  orderReview: { screen: OrderReview }
+  orderReview: { screen: OrderReview },
+  paymentMethod: { screen: PaymentMethod },
+  transfer: { screen: Transfer },
+  pay: { screen: Pay },
+  finishPayment: { screen: FinishPayment }
 },
 {
   cardStyle: {

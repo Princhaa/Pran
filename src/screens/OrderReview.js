@@ -6,13 +6,6 @@ import { NavigationActions } from 'react-navigation';
 import FlightItem from '../components/FlightItem';
 import config from '../config/config';
 
-const resetAction = NavigationActions.reset({
-    index: 0,
-    actions: [
-        NavigationActions.navigate({ routeName: 'searchFlight' })
-    ]
-})
-
 export default class OrderReview extends Component {
 
     static navigationOptions = {
@@ -102,7 +95,7 @@ export default class OrderReview extends Component {
                     <Button 
                         title = 'Lanjutkan'
                         buttonStyle = {styles.buttonStyle}
-                        onPress = {() => this.props.navigation.dispatch(resetAction)}
+                        onPress = {() => this.props.navigation.navigate('paymentMethod')}
                     />
                 </View>
             </ScrollView>
